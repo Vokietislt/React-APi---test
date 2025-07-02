@@ -3,12 +3,23 @@ import { useEffect, useState } from "react";
 const FilmoKoretele = (props)=>{
     const [liked,setLiked] = useState(false);
     useEffect(()=>{
-      localStorage.getItem(props.pavadinimas) === "Liked" ? setLiked(true) : setLiked(false);
+        if(props.filmuSarasas.length!=0){
+            props.filmuSarasas.forEach(element => {
+                if( element.pavadinimas === props.pavadinimas){
+                    setLiked(true)
+                }
+      });}
+      
     },[]);  
     function handleLike() {
+        props.handleLikedFilms({
+            pavadinimas: props.pavadinimas,
+            aprašymas: props.aprašymas,
+            data: props.data,
+            balsai: props.balsai,
+            paveikslėlis: props.paveikslėlis})
         if(!liked){
             setLiked(true);
-            localStorage.setItem(props.pavadinimas,"Liked");
         }else{
             setLiked(false);
             localStorage.removeItem(props.pavadinimas);

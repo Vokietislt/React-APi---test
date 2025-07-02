@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import FilmoKortele from './FilmoKortele.js';
 const FetchMoviesComponent = (props)=> {
-  const [movies, setMovies] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   useEffect(() => {
@@ -16,7 +15,7 @@ const FetchMoviesComponent = (props)=> {
         return response.json();
       })
       .then((data) => {
-        setMovies(data);
+        props.setMovies(data.results);
         setLoading(false);
         console.log(data);
       })
@@ -29,20 +28,7 @@ const FetchMoviesComponent = (props)=> {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  return (
-      <div className='Filmai'>
-        {movies.results.map((movie) => (
-          <FilmoKortele
-            key={movie.id}
-            pavadinimas={movie.title}
-            aprašymas={movie.overview}
-            data={movie.release_date}
-            balsai={movie.vote_average}
-            paveikslėlis={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-          />
-        ))} 
-    </div>
-  );
+  return "Loaded movies successfully";
 }
 
 export default FetchMoviesComponent;
